@@ -69,7 +69,7 @@ sumOfSquares x y = square x + square y
 -}
 -- DON'T FORGET TO SPECIFY THE TYPE IN HERE
 lastDigit :: Int -> Int
-lastDigit n = mod (abs n) 10
+lastDigit n = abs n `mod` 10
 
 {- | Write a function that takes three numbers and returns the
 difference between the biggest number and the smallest one.
@@ -136,11 +136,11 @@ and lower than 6 elements (4, 5, 6, 7, 8 and 9).
 🕯 HINT: Use recursion to implement this function.
 -}
 lowerAndGreater :: Int -> [Int] -> [Char]
-lowerAndGreater n list = go n list 0 0
+lowerAndGreater n list = go list 0 0
     where
-    go :: Int -> [Int] -> Int -> Int -> [Char]
-    go num elts gt lt
-        | null elts = show num ++ " is greater than " ++ show gt ++ " elements and lower than " ++ show lt ++ " elements"
-        | num > head elts = go num (tail elts) (gt + 1) lt
-        | num < head elts = go num (tail elts) gt (lt + 1)
-        | otherwise = go num (tail elts) gt lt
+    go :: [Int] -> Int -> Int -> [Char]
+    go elts gt lt
+        | null elts = show n ++ " is greater than " ++ show gt ++ " elements and lower than " ++ show lt ++ " elements"
+        | n > head elts = go (tail elts) (gt + 1) lt
+        | n < head elts = go (tail elts) gt (lt + 1)
+        | otherwise = go (tail elts) gt lt
