@@ -73,11 +73,8 @@ sumOfSquares x y = square x + square y
 -}
 -- DON'T FORGET TO SPECIFY THE TYPE IN HERE
 lastDigit :: Int -> Int
-<<<<<<< HEAD
 lastDigit n = abs n `mod` 10
-=======
-lastDigit n = mod (abs n) 10
->>>>>>> 88e2eb9 (Solve excercises from Lecture1)
+
 
 {- | Write a function that takes three numbers and returns the
 difference between the biggest number and the smallest one.
