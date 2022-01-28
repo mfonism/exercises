@@ -49,9 +49,8 @@ zero, you can stop calculating product and return 0 immediately.
 -}
 lazyProduct :: [Int] -> Int
 lazyProduct [] = 1
-lazyProduct (x:xs)
-    | x == 0 = 0
-    | otherwise = x * lazyProduct xs
+lazyProduct (0:_) = 0
+lazyProduct (x:xs) =  x * lazyProduct xs
 
 {- | Implement a function that duplicates every element in the list.
 
@@ -75,14 +74,17 @@ return the removed element.
 (Nothing,[1,2,3,4,5])
 -}
 removeAt :: Int -> [b] -> (Maybe b, [b])
-removeAt i [] = (Nothing, [])
-removeAt i (x:xs)
-    | i < 0 = (Nothing, x:xs)
-    | i == 0 = (Just x, xs)
-    | otherwise = let
-        (maybeZ, zs) = removeAt (i - 1) xs
-        in
-        (maybeZ, x:zs)
+removeAt i xs
+    | i < 0 = (Nothing, xs)
+    | otherwise = go i xs
+    where
+        go :: Int -> [b] -> (Maybe b, [b])
+        go _ [] = (Nothing, [])
+        go 0 (y:ys) = (Just y, ys)
+        go j (y:ys) = let
+            (maybeZ, zs) = go (j - 1) ys
+            in
+            (maybeZ, y:zs)
 
 {- | Write a function that takes a list of lists and returns only
 lists of even lengths.
@@ -112,6 +114,9 @@ spaces.
 -}
 dropSpaces :: [Char] -> [Char]
 dropSpaces = head . words
+-- alternatively
+-- dropSpaces = takeWhile (not . isSpace) . dropWhile isSpace
+
 -- FIRST ATTEMPT
 -- choked on word with infinite amount of spaces on the right hand side
 -- dropSpaces = filter (not . isSpace)
@@ -199,7 +204,7 @@ True
 -}
 isIncreasing :: [Int] -> Bool
 isIncreasing [] = True
-isIncreasing [x]= True
+isIncreasing [_]= True
 isIncreasing (x:y:ys) = x <= y && isIncreasing (y:ys)
 
 {- | Implement a function that takes two lists, sorted in the
@@ -216,8 +221,9 @@ merge :: [Int] -> [Int] -> [Int]
 merge xs [] = xs
 merge [] ys = ys
 merge (x:xs) (y:ys)
-    | x <= y = x : merge xs (y:ys)
-    | otherwise = y : merge (x:xs) ys
+    | x < y = x : merge xs (y:ys)
+    | x > y = y : merge (x:xs) ys
+    | otherwise = x : y : merge xs ys
 
 {- | Implement the "Merge Sort" algorithm in Haskell. The @mergeSort@
 function takes a list of numbers and returns a new list containing the
