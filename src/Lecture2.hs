@@ -246,11 +246,17 @@ The algorithm of merge sort is the following:
 mergeSort :: [Int] -> [Int]
 mergeSort [] = []
 mergeSort [x] = [x]
-mergeSort xs = let
-    halfLen = length xs `quot` 2
-    (firstHalf, secondHalf) = splitAt halfLen xs
-    in
-    merge (mergeSort firstHalf) (mergeSort secondHalf)
+mergeSort xss = (mergePairs . pairify) xss
+    where
+    pairify :: [Int] -> [[Int]]
+    pairify [] = []
+    pairify [x] = [[x]]
+    pairify (x:y:zs) = merge [x] [y] : pairify zs
+
+    mergePairs :: [[Int]] -> [Int]
+    mergePairs [] = []
+    mergePairs [xs] = xs
+    mergePairs (xs:ys:zss) = mergePairs (merge xs ys : zss)
 
 
 {- | Haskell is famous for being a superb language for implementing
