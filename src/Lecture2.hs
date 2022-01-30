@@ -242,13 +242,8 @@ The algorithm of merge sort is the following:
 mergeSort :: [Int] -> [Int]
 mergeSort [] = []
 mergeSort [x] = [x]
-mergeSort xss = (mergePairs . pairify) xss
+mergeSort xss = mergePairs (map (:[]) xss)
     where
-    pairify :: [Int] -> [[Int]]
-    pairify [] = []
-    pairify [x] = [[x]]
-    pairify (x:y:zs) = merge [x] [y] : pairify zs
-
     mergePairs :: [[Int]] -> [Int]
     mergePairs [] = []
     mergePairs [xs] = xs
