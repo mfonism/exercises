@@ -175,12 +175,42 @@ You're free to define any helper functions.
        treasure besides gold (if you already haven't done this).
 -}
 
--- some help in the beginning ;)
+data Chest = Chest
+  { numGold :: Int
+  , treasure:: Treasure
+  }
+
+data Treasure =
+  AmberRoom
+  | Sarcophagus
+  | PekinMan
+  | JustJudges
+
+data Dragon =
+  Red
+  | Black
+  | Green
+
+data Reward = Reward
+  { numGoldR:: Int
+  ,  treasureR:: Maybe Treasure
+  ,  experiencePointsR:: Int
+  }
+
 data Knight = Knight
     { knightHealth    :: Int
     , knightAttack    :: Int
     , knightEndurance :: Int
     }
+
+getExperiencePoints :: Dragon -> Int
+getExperiencePoints Red = 100
+getExperiencePoints Black = 150
+getExperiencePoints Green = 250
+
+recoverSwallowedTreasure :: Treasure -> Dragon -> Maybe Treasure
+recoverSwallowedTreasure _ Green = Nothing
+recoverSwallowedTreasure treasure _ = Just treasure
 
 dragonFight = error "TODO"
 
