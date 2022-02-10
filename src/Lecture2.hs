@@ -247,7 +247,7 @@ mergeSort xss = mergePairs (map (:[]) xss)
     mergePairs :: [[Int]] -> [Int]
     mergePairs [] = []
     mergePairs [xs] = xs
-    mergePairs (xs:ys:zss) = mergePairs (merge xs ys : zss)
+    mergePairs (xs:ys:zss) = merge (merge xs ys) (mergePairs zss)
 
 
 {- | Haskell is famous for being a superb language for implementing
